@@ -5,6 +5,7 @@ import './App.css'
 import type { User } from './types/user';
 import { PlayerListComponent } from './components/PlayerListComponent';
 import { fetchUser } from './services/userService';
+import { Card } from './components/Card';
 
 function App() {
   const [count, setCount] = useState(1);
@@ -40,7 +41,9 @@ function App() {
             <li key={user.id}>{user.name} - {user.email}</li>
           ))}
         </ol> */}
-        <PlayerListComponent users={users}/>
+        {/* <PlayerListComponent users={users}/> */}
+        <Card user={users[0]} present={true} />
+
 
 
         <a href="https://react.dev" target="_blank">
