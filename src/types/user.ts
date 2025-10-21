@@ -2,5 +2,8 @@ export interface User {
   id: number,
   name: string,
   username: string,
-  email: string
+  email: string,
+  permissionLevel: PermissionLevel[]
 }
+
+export type PermissionLevel = 'ADMIN' | 'USER' | 'GUEST';
