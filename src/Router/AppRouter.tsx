@@ -14,7 +14,7 @@ export const AppRouter = () => {
             name: 'John Doe',
             username: 'johndoe',
             email: '',
-            permissionLevel: ['USER']
+            permissionLevel: []
         });
     }, []);
 
