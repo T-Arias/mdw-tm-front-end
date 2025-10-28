@@ -10,7 +10,8 @@ export const AppRouter = () => {
 
     return (
         <Routes>
-            <Route index path="/login" element={<Login />} />
+            <Route index element={<Login />} />
+            <Route path="/login" element={<Login />} />
             <Route element={<ProtectedRouter isAllowed={!!user} />}>
                 <Route path="/home" element={<DashboardComponent />} />
                 <Route path="/about" element={<h1>About</h1>} />
@@ -20,7 +21,7 @@ export const AppRouter = () => {
                 <ProtectedRouter isAllowed={!!user && user.role.includes('ADMIN')} redirectTo="/about">
                     <h1>Analytics</h1>
                 </ProtectedRouter>} />
-            <Route path='/*' element={<Navigate to="/home" />} />
+            <Route path='/*' element={<Navigate to="/login" />} />
         </Routes>
     )
 }
