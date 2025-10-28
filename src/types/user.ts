@@ -3,7 +3,7 @@ export interface User {
   name: string,
   username: string,
   email: string,
-  permissionLevel: PermissionLevel[]
+  role: PermissionLevel[]
 }
 
 export type PermissionLevel = 'ADMIN' | 'USER' | 'GUEST';
