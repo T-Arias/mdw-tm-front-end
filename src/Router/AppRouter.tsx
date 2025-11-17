@@ -7,6 +7,8 @@ import { useAppSelector } from '../hooks/store'
 
 export const AppRouter = () => {
     const user = useAppSelector(state => state.auth.user);
+    console.log(user);
+    
 
     return (
         <Routes>

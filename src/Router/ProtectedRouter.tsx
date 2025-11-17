@@ -7,7 +7,7 @@ interface ProtectedRouterProps {
     redirectTo?: string;
 }
 
-export const ProtectedRouter = ({ isAllowed, children, redirectTo = "/home" }: ProtectedRouterProps) => {
+export const ProtectedRouter = ({ isAllowed, children, redirectTo = "/login" }: ProtectedRouterProps) => {
     if (!isAllowed) {
         return <Navigate to={redirectTo} />;
     }
