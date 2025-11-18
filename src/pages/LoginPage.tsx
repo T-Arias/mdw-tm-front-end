@@ -3,7 +3,7 @@ import { authService } from "../services/authService";
 import { login } from "../store/auth/slice";
 import { useAppDispatch } from "../hooks/store";
 import { useNavigate } from "react-router";
-import { signInWithPopup } from "firebase/auth";
+import { signInWithPopup, signInWithEmailAndPassword } from "firebase/auth";
 import { auth, googleProvider } from "../auth/firebase";
 
 type Inputs = {
@@ -18,11 +18,13 @@ export default function Login() {
 
     const onSubmit: SubmitHandler<Inputs> = async (data) => {
         try {
-            const response = await authService.login(data);
-            if (response) {
-                dispatch(login(response));
-                navigate("/home");
-            }
+            const {email, password } = data;
+            const result = await signInWithEmailAndPassword(auth, email, password);
+            const firebaseToken = await result.user.getIdToken();
+            const response = await authService.socialLogin(firebaseToken);
+
+            dispatch(login(response));
+            navigate("/home");
         } catch (error) {
             console.error("Login failed:", error);
         }
@@ -31,6 +33,8 @@ export default function Login() {
     const loginWithGoogle = async () => {
         try {
             const result = await signInWithPopup(auth, googleProvider);
+            console.log(result);
+            
             const firebaseToken = await result.user.getIdToken();
 
             const data = await authService.socialLogin(firebaseToken);
