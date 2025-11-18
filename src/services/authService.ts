@@ -18,4 +18,12 @@ export const authService = {
     logout: async (): Promise<void> => {
         await api.post('/auth/logout');
     },
+
+    socialLogin: async (firebaseToken: string): Promise<LoginResponse> => {
+        const response = await api.post(
+            'http://localhost:3000/api/auth/social-login',
+            { firebaseToken }
+        );
+        return response.data;
+    }
 };

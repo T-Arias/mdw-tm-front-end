@@ -3,6 +3,8 @@ import { authService } from "../services/authService";
 import { login } from "../store/auth/slice";
 import { useAppDispatch } from "../hooks/store";
 import { useNavigate } from "react-router";
+import { signInWithPopup } from "firebase/auth";
+import { auth, googleProvider } from "../auth/firebase";
 
 type Inputs = {
     email: string;
@@ -23,6 +25,20 @@ export default function Login() {
             }
         } catch (error) {
             console.error("Login failed:", error);
+        }
+    };
+
+    const loginWithGoogle = async () => {
+        try {
+            const result = await signInWithPopup(auth, googleProvider);
+            const firebaseToken = await result.user.getIdToken();
+
+            const data = await authService.socialLogin(firebaseToken);
+
+            dispatch(login(data));
+            navigate("/home");
+        } catch (error) {
+            console.error("Google login failed:", error);
         }
     };
 
@@ -60,7 +76,7 @@ export default function Login() {
                         />
                         {errors.password && (
                             <span className="text-red-400 text-sm mt-1">
-                                Contraseña requerida
+                                {errors.password.message}
                             </span>
                         )}
                     </div>
@@ -72,6 +88,20 @@ export default function Login() {
                         Ingresar
                     </button>
                 </form>
+
+                <div className="mt-4 text-center text-gray-400 text-sm">
+                    o continúa con
+                </div>
+
+                <div className="flex flex-col gap-2 mt-4">
+                    <button
+                        type="button"
+                        onClick={loginWithGoogle}
+                        className="bg-red-600 hover:bg-red-700 text-white py-2 rounded-md font-medium transition-all w-full flex items-center justify-center gap-2"
+                    >
+                        Continuar con Google
+                    </button>
+                </div>
             </div>
         </div>
     );
